@@ -1,0 +1,66 @@
+.login-Container {
+    width: 100%;
+    height: 100vh;
+    margin-top: 40px;
+    background-color: rgb(102, 137, 168);
+    color: black;
+    display: block;
+}
+
+.login-Container-form {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    padding-bottom: 10%;
+    padding-left: 10%;
+}
+
+.login-Container-form div {
+    width: 30%;
+    height: 40px;
+    margin: 15px 30px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-Container-form input {
+    border: none;
+    padding: 8px 0 8px 0;
+    border-radius: 8px;
+    background-color: rgb(191, 201, 197);
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+.login-Container-form button {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    height: 40px;
+    font-size: 15px;
+    font-family: sans-serif;
+    margin: 20px 0 20px 0;
+    padding: 10px 0;
+    background-color: rgb(151, 206, 255);
+    color: black;
+}
+
+.login-Container-form button:hover {
+    background-color: rgb(76, 97, 116);
+    color: white;
+}
+
+.checkbox {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 20%;
+    margin-left: 18%;
+    margin-top: -30px;
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 500;
+}

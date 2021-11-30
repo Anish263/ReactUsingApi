@@ -1,0 +1,34 @@
+[
+    {
+        "id": 0,
+        "fullName": "Anish Gupta",
+        "email": "abc@gmail.com",
+        "userName": "Anish",
+        "password": "1234",
+        "description": "I love programming, Pyhton, C...."
+    },
+    {
+        "id": 1,
+        "fullName": "Max ",
+        "email": "abc@gmail.com",
+        "userName": "Max123",
+        "password": "1234",
+        "description": "I like to never look down on me."
+    },
+    {
+        "id": 3,
+        "fullName": "Justin Mike",
+        "email": "abc@gmail.com",
+        "userName": "Justin",
+        "password": "3456",
+        "description": "I always look up to be a perfectionist."
+    },
+    {
+        "id": 5,
+        "fullName": "Admin User",
+        "email": "abc@gmail.com",
+        "userName": "Admin",
+        "password": "admin",
+        "description": "I am Admin user."
+    }
+    ]
