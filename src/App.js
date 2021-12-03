@@ -15,43 +15,21 @@ class App extends Component{
     this.state = {
         users: []
     }
-    this.addUser = this.addUser.bind(this);
-    this.deleteUser=this.deleteUser.bind(this);
+    
 }
 
 componentDidMount(){
   
-  let users=require('./data/users.json');
+}
 
-    console.log(users);
-  this.setState({
-    users:users
-  });
-}
-deleteUser(id){
-  this.setState((state) => ({
-    users: state.users.filter((user) => user.id !== id)
-}));
-console.log(this.state.users);
-}
-addUser(user) {
-  console.log(user);
-  this.setState((state) => ({
-      users: state.users.concat(user)
       
-  }));
-  console.log(this.state.users);
-}
+ 
 render(){
   return (<div>
    
                   <Route exact path="/" render = {({history}) => (
                               <div>
-                                  <Registeration onAddUser = {(user) => {
-                                      this.addUser(user);
-                                      console.log(this.state.users);
-                                      history.push('/Login');
-                                  }}/>
+                                  <Registeration history={history}/>
                               </div>
                           )}/>
 
@@ -62,22 +40,20 @@ render(){
                   <Route path="/Login" render={({history})=>(
                   <div>
                    
-                    <Login  users={this.state.users} history={history}/>
+                    <Login   history={history}/>
                     </div>
                 )}/>
 
                 <Route path="/LoginSuccess/" render={({history})=>{
-                return  <Home users={this.state.users} history= {history}/>
+                return  <Home  history= {history}/>
                 }}/>
 
                 <Route path="/Update" render={({history})=>{
-                  return <Update  users={this.state.users} onDelete= {(id) => {
-                                            this.deleteUser(id);}} 
-                                            history={history} />
+                  return <Update   history={history} />
                 }} />
 
 <Route path="/users" render={({history})=>{
-                return  <User users={this.state.users} history= {history}/>
+                return  <User  history= {history}/>
                 }}/>
   </div>)
 }

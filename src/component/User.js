@@ -7,9 +7,26 @@ class User extends Component {
     constructor() {
         super();
         this.state = {
-            id:Number,
-            loginuser: {}
+            users:[]
         }
+    }
+    componentDidMount(){
+        fetch('http://localhost:8000/auth/fetchall/', {
+                method:"GET",
+                headers:{
+                    'Content-Type': 'application/json',
+                }
+            }).then((result)=>{
+                result.json().then((resp)=>{
+                    this.setState((state) => ({
+                      users:resp.users
+                    }))
+                })   
+            })
+    .catch(err => {
+        console.log(err);
+           alert('Invalid')
+   })
     }
     render() { 
         return <div>
@@ -26,15 +43,17 @@ class User extends Component {
             <h3> All users </h3>
             <table>
                 <thead>
-                    <th>Fullname</th>
+                    <th>Username</th>
                    
                     <th>Email</th>
+                    <th>Description</th>
                 </thead>
                 <tbody>
-                {this.props.users.map((user, index) => <tr key={index}>
-                    <td>{user.fullName}</td>
+                {this.state.users.map((user, index) => <tr key={index}>
+                    <td>{user.username}</td>
                    
                     <td>{user.email}</td>
+                    <td>{user.description}</td>
                 </tr>)}
                 </tbody>
             </table>

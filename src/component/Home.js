@@ -6,21 +6,37 @@ class Home extends Component{
         super();
         this.state = {
             id:Number,
-            loginuser: {}
+            loginuser: {},
+            username:''
         };
     }
 
     componentDidMount() {
-        let path = window.location.href;
-        console.log(path);
-        path = Number(path.split("/")[4]);
-        console.log(path);
-        let user = this.props.users.filter((user) => user.id === path);
-        console.log(this.props.users);
-        console.log(...user);
+        let url = window.location.href;
+        let id = Number(url.split("/")[4]);
+        let token = localStorage.getItem('auth');
+        console.log(JSON.parse(token));
+        fetch(`http://localhost:8000/auth/check/${id}`, {
+            method:"GET",
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization:'Bearer '+JSON.parse(token)
+}}
+).then((result)=>{
+    result.json().then((resp)=>{
+        console.log(resp);
         this.setState((state) => ({
-            loginuser: user[0],id:path
-        }));
+          username:resp.user.username,
+             id:resp.user.id
+        }))
+    })
+})
+.catch(err => {
+    console.log(err);
+alert('Invalid User')
+
+})
+
     }
     
     render() { 
@@ -28,13 +44,8 @@ class Home extends Component{
 
 <ul>
   <li><a  href="/">Home</a></li>
- <Link  to={{
-
-pathname:`/Update/${this.state.id}`,
-
-
-
-}}> <li className="a">Profile</li></Link>
+ <Link  to={{ pathname:`/Update/${this.state.id}`}}>
+     <li className="a">Profile</li></Link>
  
   <Link to="/"><li className="Logout"><a href="/">Logout</a></li></Link>
 
@@ -43,7 +54,7 @@ pathname:`/Update/${this.state.id}`,
 
 </ul>
             <div className="header-body">
-                <h3>Hi, {this.state.loginuser.fullName}</h3>
+                <h3>Hi, {this.state.username}</h3>
                
                 
                

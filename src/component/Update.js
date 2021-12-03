@@ -11,7 +11,7 @@ class Update extends Component{
         super();
         this.state = {
             id:Number,
-            loginuser: {}
+            loggedinUser: {}
         }
         this.updateUser=this.updateUser.bind(this)
         this.handleChange=this.handleChange.bind(this)
@@ -20,20 +20,49 @@ class Update extends Component{
 
 
     componentDidMount() {
-        let path = window.location.href;
-        path = Number(path.split("/")[4]);
-        console.log(this.props.users);
-        let users=this.props.users
-        console.log(users);
-        let user = users.filter((user) => user.id === path);
-        console.log(user[0]);
-        this.setState({
-            loginuser: user[0],
-            id:path
-        });
+        let url = window.location.href;
+        let id = Number(url.split("/")[4]);
+        let token = localStorage.getItem('auth');
+fetch(`http://localhost:8000/auth/check/${id}`, {
+            method:"GET",
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization:'Bearer '+JSON.parse(token)
+            }
+        }).then((result)=>{
+            result.json().then((resp)=>{
+                console.log(resp);
+                this.setState((state) => ({
+                 loggedinUser:resp.user,
+                id:resp.user.id
+    }))
+                })
+        })
+        .catch(err => {
+            console.log(err);
+            alert('Invalid User')
+        })
     }
     deleteUser() {
-        this.props.onDelete(this.state.id)
+        let url = window.location.href;
+        let id = Number(url.split("/")[4]);
+        let token = localStorage.getItem('auth');
+        fetch(`http://localhost:8000/auth/delete/${id}`, {
+            method:"DELETE",
+            headers:{
+                Authorization:'Bearer '+JSON.parse(token)
+            },
+        }).then((result)=>{
+            result.json().then((resp)=>{
+                console.log(resp);
+                alert('user deleted');
+                this.props.history.push('/');
+            })
+        })
+        .catch(err => {
+            console.log(err);
+    alert('Invalid User')
+               })
 
     }
 
@@ -45,54 +74,59 @@ class Update extends Component{
     }
 updateUser(event){
     event.preventDefault();
-console.log(this.state.loginuser);
-//this.props.onUpdate(this.state.loginuser,this.state.id)
-alert("helllo");
-this.props.history.push('/login')
+    let url = window.location.href;
+        let id = Number(url.split("/")[4]);
+        let token = localStorage.getItem('auth');
+        fetch(`http://localhost:8000/auth/update/${id}`, {
+            method:"PUT",
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization:'Bearer '+JSON.parse(token)
+            },
+            body:JSON.stringify(this.state.loggedinUser)
+        }).then((result)=>{
+            result.json().then((resp)=>{
+                console.log(resp);
+                alert('user updated login again to see changes');
+                this.props.history.push('/LoginSuccess/'+id);
+            })
+       })
+        .catch(err => {
+        console.log(err);
+           alert('Invalid User')
+        })
 }
     render(){
        
 return <div className="login-Container">
-            Welcome to profile
-            <ul>
-  <li><a  href="/">Home</a></li>
- <Link  to={{
-
-pathname:`/Update/${this.state.id}`,
-
-
-
-}}> <li className="a">Profile</li></Link>
+           
+            <ul><li><a  href="/">Home</a></li>
+ <Link  to={{ pathname:`/Update/${this.state.id}`,}}>
+      <li className="a">Profile</li></Link>
  
   <Link to="/"><li className="Logout"><a href="/">Logout</a></li></Link>
 
   <Link to="/users"> <li><a href="/users">Users</a></li> </Link>
 
-
+  
 </ul>
+Welcome to profile
             <form className="login-Container-form" name="profile">
-                <div>
-                    <strong>Full Name:</strong>
-                    <input type="text" name="fullName" defaultValue={this.state.loginuser && this.state.loginuser.fullName} onChange={(e) => this.setState((state) => {this.state.loginuser.fullName = e.target.value})} required/>
-                </div>
- 
-                <div>
-                    <strong>Email:</strong>
-                    <input type="email" name="email" defaultValue={this.state.loginuser && this.state.loginuser.email} onChange={(e) => this.setState((state) => {this.state.loginuser.email = e.target.value})} required/>
-                </div>
+               
+                    
+                
                
                 <div>
                     <strong>User Name:</strong>
-                    <input type="text" name="userName" defaultValue={this.state.loginuser.userName} onChange={(e) => this.setState((state) => {this.state.loginuser.userName = e.target.value})} required/>
-                </div>
-
-                <div>
-                    <strong>Password:</strong>
-                    <input type="password" name="password" defaultValue={this.state.loginuser.password} onChange={(e) => this.setState((state) => {this.state.loginuser.password = e.target.value})} required/>
-                </div>
+                    <input  type="text" placeholder="Username" name="username"defaultValue={this.state.loggedinUser && this.state.loggedinUser.username}  onChange={(e) => this.setState((state) => {this.state.loggedinUser.username = e.target.value})} required/>                </div>
 
                 
-                <div></div>
+
+                
+                <div>
+                <strong>Description:</strong>
+                <input  type="text" placeholder="About Yourself" name="description" defaultValue={this.state.loggedinUser && this.state.loggedinUser.description}  onChange={(e) => this.setState((state) => {this.state.loggedinUser.description = e.target.value})} required/>
+                </div>
                 
                 <div>
                     <button type="submit" onClick={this.updateUser}>Update</button>

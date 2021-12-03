@@ -12,26 +12,36 @@ class Login extends Component{
       this.loginSubmit=this.loginSubmit.bind(this);
     }
 
-    componentDidMount(){
-console.log(this.props.users);
-    }
+  
 loginSubmit(event){
+        event.preventDefault();
+        fetch('http://localhost:8000/auth/login', {
 
-    event.preventDefault();
-    const userName = event.target.elements.username.value;
-        const password = event.target.elements.password.value;
-        console.log(userName, password);
-        if (userName && password) {
-            let users = this.props.users;
-            users = users.filter(user => (user.userName === userName && user.password === password));
-            console.log(users);
-            if (users.length > 0) {
-                console.log("Valid login");
-                this.props.history.push('/LoginSuccess/' + users[0].id);
+            method:"POST",
+                headers:{
+                "Content-Type":"Application/json"
+        },
+            body:JSON.stringify(this.state)
+        }).then((result)=>{
+            result.json().then((resp)=>{
+            console.log(resp.token);
+            if(!resp.token){
+            alert('No user found');
+            this.props.history.push('/');
             }
-            else
-                alert("Please, check credentials");
-        }
+            else {
+                    localStorage.setItem("auth",JSON.stringify(resp.token))
+                    localStorage.setItem("id",JSON.stringify(resp.id))
+                    this.props.history.push('/LoginSuccess/'+resp.id);
+                            }
+                        })
+                    })
+                    
+            .catch(err => {
+                        console.log(err);
+                        alert('Invalid User')
+                    })
+    
 }
     render() { 
         return (
@@ -39,8 +49,8 @@ loginSubmit(event){
             Hello
             <form className="login-form" onSubmit={this.loginSubmit}>
                 <h1>Login Here...</h1>
-                <input type="text" placeholder="Username" name="username" required/>
-                <input type="password" placeholder="Password" name="password" required/>
+                <input type="text" placeholder="Email" name="email" onChange={(e) => {this.setState({email:e.target.value})} } required/>
+                <input type="password" placeholder="Password" name="password" onChange={(e) => {this.setState({password:e.target.value})} } required/>
                 <button type="submit">Login</button>
                 <RegistrationLink />
             </form>

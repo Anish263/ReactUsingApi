@@ -2,43 +2,45 @@ import React,{Component} from 'react';
 // import { Link } from 'react-router-dom';
 import LoginLink from "./LoginLink"
 import "../styles/form.css"
-class Registeration extends Component{
-    constructor() {
-        super();
-        this.register = this.register.bind(this);
-    }
+function Registeration(props) {
+    
 
-    register(event){
+  const register=(event)=>{
         event.preventDefault();
 
-        const fullName = event.target.elements.fullName.value;
-        const email = event.target.elements.email.value;
-        const userName = event.target.elements.userName.value;
-        const password = event.target.elements.password.value;
-        const user = {
-            id: Number(new Date()),
-            fullName: fullName,
-            email: email,
-            userName: userName,
-            password: password
-        }
-        if (fullName && email && userName && password) {
-            this.props.onAddUser(user);
-        }
+        fetch('http://localhost:8000/auth/signup', {
+             method:"PUT",
+             headers:{  "Content-Type":"Application/json"
+             },
+        body:JSON.stringify(this.state)
+    }).then((result)=>{
+         result.json().then((resp)=>{
+         console.log(resp);
+                 localStorage.setItem("auth",JSON.stringify(resp.token))
+         this.props.history.push('/Login');
+            })
+
+        }) .catch(err => {
+
+            console.log(err);
+
+            alert(err.data[0].msg);
+
+        })
     }
 
-    render() { 
+     
         return <div className="main-container">
-            <form className="form" onSubmit={this.register}> 
+            <form className="form" onSubmit={register}> 
                 <h1>Welcome </h1>
-                <input type="text" placeholder="Fullname" name="fullName" required/>
-                <input type="email" placeholder="Email" name="email" required/>
-                <input type="text" placeholder="Username" name="userName" required/>
-                <input type="password" placeholder="Password" name="password" required/>
+                <input type="email" placeholder="email" name="email" onChange={(e) => {this.setState({email:e.target.value})} } required/>
+                <input type="text" placeholder="username" name="username" onChange={(e) => {this.setState({username:e.target.value})}} required/>
+                <input type="password" placeholder="password" name="password" onChange={(e) => {this.setState({password:e.target.value})} }required/>
+                <input type="text" placeholder="description" name="description" onChange={(e) => {this.setState({description:e.target.value})} }required/>
              <button type="submit">Register</button>
               <LoginLink/>
             </form>
         </div>;
     }
-}
+
 export default Registeration
