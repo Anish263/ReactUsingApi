@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import '../styles/users.css'
 import '../styles/home.css'
 import { Link } from 'react-router-dom';
@@ -103,6 +104,7 @@ class User extends Component {
         localStorage.removeItem('auth');
         localStorage.removeItem('id');
         console.log("token",localStorage.getItem("auth"));
+        
     }
     
     render() { 

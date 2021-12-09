@@ -70,8 +70,9 @@ class Home extends Component{
         return <div>
 {this.state.flag===0 &&<div> <h1 className="error">Need to login first</h1> <Link to="/Login">Click here to Login..</Link> </div>}
             {this.state.display===1 && <div>
+                <div className="side">
 <Sidebar id={this.state.id}/>
-
+</div>
             <div className="header-body">
                 <h3>Hi, {this.state.username}</h3>
                 <ImageSlider slides={SliderData} />

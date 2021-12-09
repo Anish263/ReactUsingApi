@@ -56,6 +56,7 @@ useEffect(()=>{
         localStorage.removeItem('id');
         
         console.log("token",localStorage.getItem("auth"));
+        props.history.push('/Login');
       };
 const handleChange=(event)=>{
     event.preventDefault();

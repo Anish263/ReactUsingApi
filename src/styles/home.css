@@ -40,4 +40,6 @@ ul {
   .Logout{
       float: right;
   }
-  
+  .side{
+    color: red;
+  }

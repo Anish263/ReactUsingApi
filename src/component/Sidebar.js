@@ -19,7 +19,7 @@ class Sidebar extends Component {
 
     handleLogout(){
         localStorage.removeItem('auth');
-       
+       localStorage.clear();
         localStorage.removeItem('id');
         console.log(localStorage);
     }
@@ -31,7 +31,7 @@ class Sidebar extends Component {
         }))
     }
     render() { 
-        return (    <div>
+        return (    <div className="main">
             <IconContext.Provider value={{ color: '#fff' }}>
         <div className='navbar'>
           <Link to='#' className='menu-bars'>
@@ -48,12 +48,12 @@ class Sidebar extends Component {
                 <li className="nav-text"><Link to={{pathname: `/Update/${this.props.id}`}}><span><span>Profile</span> </span></Link></li><br/>
                 <li className="nav-text"> <Link to="/AddUser"><span>AddUser</span></Link></li>
                 <li className="nav-text"> <Link to="/users"><span><span> <a href="/users">User</a></span></span> </Link></li>
-                <li className="nav-text">  <Link to="/"><span onClick={this.handleLogout} ><span>Logout</span></span></Link></li>
+                <li className="nav-text">  <Link to="/Login"><span><span onClick={this.handleLogout} >Logout</span></span></Link></li>
 
           </ul>
         </nav>
       </IconContext.Provider>
-      <div className></div>
+      
         </div>  );
     }
 

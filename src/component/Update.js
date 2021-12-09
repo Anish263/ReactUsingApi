@@ -108,7 +108,7 @@ return <div className="login-Container">
  <Link  to={{ pathname:`/Update/${this.state.id}`,}}>
       <li className="a">Profile</li></Link>
  
-  <Link to="/"><li className="Logout"><a href="/">Logout</a></li></Link>
+  <Link to="/Login"><li className="Logout"><a href="/Login">Logout</a></li></Link>
 
   <Link to="/users"> <li><a href="/users">Users</a></li> </Link>
 
