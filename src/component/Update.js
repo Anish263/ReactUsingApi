@@ -2,7 +2,6 @@
 import React from 'react';
 import { Component } from "react";
 import { Link } from 'react-router-dom';
-import Home from './Home'
 import '../styles/Profile.css';
 import '../styles/home.css'
 class Update extends Component{
@@ -23,6 +22,9 @@ class Update extends Component{
         let url = window.location.href;
         let id = Number(url.split("/")[4]);
         let token = localStorage.getItem('auth');
+        if(!token){
+            throw new Error("not Authorised")
+        }else{
 fetch(`http://localhost:8000/auth/check/${id}`, {
             method:"GET",
             headers:{
@@ -41,7 +43,7 @@ fetch(`http://localhost:8000/auth/check/${id}`, {
         .catch(err => {
             console.log(err);
             alert('Invalid User')
-        })
+        })}
     }
     deleteUser() {
         let url = window.location.href;
@@ -56,7 +58,8 @@ fetch(`http://localhost:8000/auth/check/${id}`, {
             result.json().then((resp)=>{
                 console.log(resp);
                 alert('user deleted');
-                this.props.history.push('/');
+                localStorage.clear()
+                this.props.history.push('/Login');
             })
         })
         .catch(err => {
@@ -87,8 +90,8 @@ updateUser(event){
         }).then((result)=>{
             result.json().then((resp)=>{
                 console.log(resp);
-                alert('user updated login again to see changes');
-                this.props.history.push('/LoginSuccess/'+id);
+                alert('user updated ');
+                this.props.history.push('/users');
             })
        })
         .catch(err => {
@@ -100,7 +103,8 @@ updateUser(event){
        
 return <div className="login-Container">
            
-            <ul><li><a  href="/">Home</a></li>
+            <ul>
+            <Link to="/AddUser"> <li><a  href="/AddUser">AddUser</a></li></Link>
  <Link  to={{ pathname:`/Update/${this.state.id}`,}}>
       <li className="a">Profile</li></Link>
  

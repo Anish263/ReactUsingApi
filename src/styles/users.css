@@ -18,7 +18,32 @@ table {
   table th {
     padding-top: 12px;
     padding-bottom: 12px;
-    text-align: left;
+    text-align: center;
     background-color: #1e2020;
     color: white;
   }
+
+
+.PopOver{
+  background-color: gray;
+}
+  .popover-block{
+    margin: 50px;
+    border: gray solid 2px;
+    padding:20px;
+    color: blanchedalmond;
+   margin-bottom: 20px;
+    
+  }
+ 
+
+ .search-input{
+  float: left;
+  padding: 6px;
+  border: 1px solid;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+ 
+ }
+ 

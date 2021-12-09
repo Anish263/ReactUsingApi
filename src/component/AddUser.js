@@ -1,13 +1,15 @@
-import React,{ useState} from 'react';
+import React,{ useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
 import './validation.js'
 // import { Link } from 'react-router-dom';
-import LoginLink from "./LoginLink"
+
 import "../styles/form.css"
 import validation from './validation.js';
-function  Registeration(props)  {
-    
-     
-     localStorage.clear()
+
+function  AddUser(props)  {
+const[flag,setFlag]=useState(1);
+const[display,setDisplay]=useState(1);
+let token=localStorage.getItem("auth");
 const [values,setValues]=useState({
      email:""
     ,username:""
@@ -16,9 +18,17 @@ const [values,setValues]=useState({
 })
 
 const [errors,setError]=useState({errors:null})
+useEffect(()=>{
+    if(!token){
+        setFlag(0)
+    setDisplay(0)
+    }
+},[])
 
   async function register(event){
-        event.preventDefault();  localStorage.clear()
+ 
+        event.preventDefault();
+       
      setError(validation(values))
         
        
@@ -31,15 +41,22 @@ const [errors,setError]=useState({errors:null})
              },
             body:JSON.stringify(item)
             })
-            result=await result.json() 
+            result=await result.json()  
            
         localStorage.setItem("user-info",JSON.stringify(result)) 
     console.log(validation(values))
-         Object.keys(validation(values)).length===0 &&  props.history.push('/Login'); 
+         Object.keys(validation(values)).length===0 && props.history.push('/users'); 
         
         
         
     }
+ const   logoutHandler = () => {
+        
+        localStorage.removeItem('auth');
+        localStorage.removeItem('id');
+        
+        console.log("token",localStorage.getItem("auth"));
+      };
 const handleChange=(event)=>{
     event.preventDefault();
     setValues({
@@ -48,9 +65,22 @@ const handleChange=(event)=>{
 })
 }
      
-        return <div className="main-container">
+        return <div>
+           {flag===0 &&<div> <h1 className="error">Need to login first</h1> <Link to="/Login">Click here to Login..</Link> </div>}
+           {display===1 && <div>
+            <ul>
+  <Link to="/AddUser"> <li><a  href="/AddUser">AddUser</a></li></Link>
+ 
+ 
+  <Link to="/"><li className="Logout"><a href="/" onClick={logoutHandler}>Logout</a></li></Link>
+
+  <Link to="/users"> <li><a href="/users">Users</a></li> </Link>
+
+
+</ul>
+<div className="main-container">
             <form className="form" onSubmit={register}> 
-                <h1>Welcome </h1>
+                <h1>Add User </h1>
                 <input type="email"
                  placeholder="Email" 
                  name="email"
@@ -83,11 +113,12 @@ const handleChange=(event)=>{
                  />
 {errors.description && <p className="error">{errors.description}</p>}
                 
-             <button type="submit">Register</button>
-              <LoginLink/>
+             <button type="submit">AddUser</button>
+              
             </form>
-        </div>;
+        </div>
+        </div>}  </div>;
     }
 
 
-export default Registeration
+export default AddUser

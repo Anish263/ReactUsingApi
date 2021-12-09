@@ -1,6 +1,7 @@
+
 .main-container {
     background-color: white;
-    width: 450px;
+   
     height: 450px;
     opacity: 85%;
     border-radius: 3%;
@@ -12,15 +13,27 @@
     text-align: center;
     padding: 15px 0 0 0;
 }
+.center{
+    margin:auto;
+}
+.login-form{
 
-.form {
-    width: 100%;
+    width: 50%;
     padding: 10px 0 10px 0;
-    margin: 20px 0 0 0;
+    margin: auto;
+  
+}
+.form{
+
+    width: 50%;
+    padding: 10px 0 10px 0;
+    margin: auto;
+  
 }
 
+
 .login-form {
-    margin: 30px 0 0 0;
+    margin: auto;
     padding: 20px 0 20px 0;
 }
 
@@ -36,6 +49,7 @@
     padding: 15px;
     box-sizing: border-box;
     width: 100%;
+    text-align: left;
 }
 
 .form button, 
@@ -55,4 +69,7 @@
 .login-form button:hover {
     cursor: pointer;
     background-color: #325b7c;
+}
+.error{
+    color: red;
 }
